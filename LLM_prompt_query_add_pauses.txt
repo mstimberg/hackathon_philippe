@@ -1,0 +1,64 @@
+I have a text in French that is going to be used in a text to speech app. The text is copied in the app, and the app voice utility reads it aloud. The app needs a pause tag like "\pau=N\". 
+The pause duration in milliseconds indicated in the integer N, in "\pau=500\" for example it's 500ms, but typically when pausing inside a sentence the pause would be shorter) to be in the text whenever we want the speech to make a short pause for better flow. 
+There isn't necessarily a pause after each period or after each comma.
+
+Here is an example of text with pauses: "Bonjour les amis,
+Je suis ravi de vous retrouver aujourd’hui. \pau=500\ D’autant pluss dans le cadre A Fond La Vie, que j’apprécie tant. \pau=500\
+
+On se connaît depuis longtemps. Je suis souvent parti comme vacancier avec l’asso. Que des super souvenirs ensemble. \pau=500\
+En plaisantant, on pourrait dire que je suis maintenant en capacité d’être moi-même directeur d’un séjour, si on me trouve un binôme fou. \pau=500\
+
+En parlant de ça, j’espère que Sylvain m’entend via la visio. \pau=500\ ça fait plaisir aussi de te retrouver, encore dans les bons coups, \pau=100\ moi ici et toi depuis Lyon. \pau=500\
+
+On est invités tous les deux à vous parler de votre rôle de direction de séjour. \pau=200\ Et comment faire en sorte que tout le monde s’en sorte au mieux. \pau=500\ On va se l’avouer, pas forcément dans le meilleur des mondes. \pau=500\ Il y aura forcément des galères et des imprévus à gérer. \pau=500\
+
+Du coup, on peut se dire, plus facile à dire qu’à faire, de permettre que les vacanciers soient acteurs, avec leurs handicaps lourds et variés. \pau=500\ Et bien pas forcément tant que ça. \pau=500\ Chacune, chacun a ses capacités. \pau=500\ Capacités d’actions, de réflexions, de choix, de créativité. \pau=500\
+
+Votre rôle peut être de devenir, le temps d’un séjour, les facilitateurs de l’expression de ces capacités. \pau=500\ \pau=500\
+
+Je vous invite fortement, à prendre au sérieux nos conseils et nos avis de vacanciers \pau=100\ car en général, c’est nous qui savons le mieux, nos forces, nos limites, nos souhaits \pau=100\ et la meilleure façon de faire avec nous-mêmes. \pau=500\ Depuis le temps, on finit par se connaître. \pau=500\
+Je sais bien que certaines et certains d’entre vous ont pluss d’expériences, ou au contraire n’en ont pas, et c’est la première fois que vous allez devoir gérer. \pau=200\ Si vous stressez, c’est normal. \pau=200\ Si vous ne stressez pas, commencez à le faire. \pau=100\ Pas pour le plaisir de stresser, mais pour remettre en question, en jeu la position de tout savoir, pour expérimenter différemment. \pau=500\ Au cas par cas, car c’est un autre séjour que le précédent. \pau=500\ Et si vous avez revu toute la logistique, si vous avez renouvelé vos animatrices et animateurs, c’est peut-être pareil avec vos vacancières et vos vacanciers. \pau=500\ Soit ce sont de nouvelles personnes, soit ce sont les mêmes mais avec un autre état d’esprit que le séjour précédent, soit un mix de tout cela. \pau=500\ Et du coup, on reprend les bases à zéro. \pau=500\ Mais, après ce temps ensemble, vous serez déjà à 1, voire à 2, puisque vous serez formés, et parés en binômes. \pau=500\
+
+Un conseil rapide, c’est une petite réunion sympa, avant les vacances, pour faire connaissance, et pour voir ce qui compte pour le vacancier durant le séjour, serait préférable. \pau=500\
+
+De cette façon, vous permettez aux vacanciers de disposer de quelque chose de vraiment précieux, le pouvoir d’agir. \pau=500\ Vous nous aiderez ainsi à prendre place dans la gestion de nos vacances et du séjour. \pau=500\
+Le mot-clé, là, c’est le pouvoir d’agir. \pau=500\ Vous avez peut-être déjà entendu cette expression, ou au contraire c’est la première fois. \pau=500\ On se détend, on ouvre ses chakra, ça va aller. \pau=500\
+
+Mon expérience m’amène à définir le pouvoir d’agir d’une personne en situation de handicap comme \pau=100\ sa capacité à décider, \pau=100\ mettre en place des actions, \pau=100\ aller au-delà des limites que la société lui impose. \pau=500\ C’est aussi la possibilité de montrer des capacités, \pau=100\ à partir de la prise en considération par les autres de son propre univers différent. \pau=500\
+
+Dans mon cas, le pouvoir d’agir désigne \pau=100\ ma capacité à sortir des cases pré-établies pour moi par mon environnement.  \pau=500\ Pour moi, le pouvoir d’agir c’est aussi le pouvoir d’oser. \pau=100\ En somme, c’est être humain ! \pau=500\
+
+C’est aussi \pau=100\ regarder en premier les possibilités, \pau=500\ les aspirations et les désirs de la personne, et seulement dans un deuxième temps s’intéresser aux obstacles. \pau=500\ Non pas comme une raison de ne pas faire les choses, \pau=500\ mais plutôt comme une opportunité de repenser nos préjugés, \pau=100\ de transformer nos façons d’être, et de faire. \pau=500\
+Ce pouvoir ne prend pas la même forme \pau=100\ pour chacune et chacun d’entre nous. \pau=500\ Le vrai défi est de rentrer dans un état d’esprit dans lequel on présume toujours de la capacité de la personne à choisir par elle-même. \pau=500\ Ce n’est que comme cela qu’il est possible de faire AVEC \pau=500\ et surtout PAR \pau=100\ les personnes en situation de handicap, \pau=500\ plus seulement POUR ! \pau=500\ J’insiste vraiment sur le mot, par, plutôt que, pour, à la place de.  \pau=100\
+
+Aidez-nous à relever des défis,  \pau=100\ nos défis ! \pau=100\ Nous donner la possibilité de prendre des petites décisions paraît peut-être anodin pour vous, \pau=100\ mais pour nous, c’est hyper important ! \pau=500\ Comme dit la chanson, pour moi, ça veut dire beaucoup. ça veut dire qu’il était libre, vous comprenez !  \pau=500\
+
+Le deuxième point qui nous intéresse comme directrices et directeurs de séjours, concerne l’aide que vous allez apporter aux vacanciers. \pau=500\
+
+
+Please add similar types of pauses at the appropriate positions in the sentences of the following text:  
+
+"Mon aspiration dans la vie, c’est d’être autonome.  ça peut paraître paradoxal pour quelqu’un comme moi qui n’a pas le contrôle de ses mouvements. 
+
+Et ça l’est,  si on considère que l’autonomie, c’est réussir à se débrouiller seul pour faire les choses.  Mais, ce n’est pas vraiment ça l’autonomie,  sinon personne ne serait autonome, en situation de handicap ou non.  On a toutes et touss besoin des autres pour avancer,  et certains d’entre nous ont besoin des autres plus souvent ! 
+
+Moi, j’ai besoin de l’aide d’une personne extérieure dans tous les gestes du quotidien,  je suis dépendant.  Par définition, on peut se poser la question de savoir si je ne serais donc pas autonome ?  Je vous le dis, je suis autonome, et, dépendant.  Je suis les deux.  
+
+La capacité d’une personne ne saurait être réduite à sa possibilité d’accomplir seule des actions ou des gestes.  Je vous invite à réconcilier ces deux notions,  autonomie et dépendance, qui peuvent aller de paire,  et vous invite à concevoir l’autonomie, non plus comme un objectif en soi,  mais bien comme un processus, pour être maître de sa vie.  Et a minima,  pour être maîtresses ou maître, de son séjour de vacances.  Que ce séjour soit le premier, le deuxième, un de pluss,   espérons pas le dernier.  
+
+Le pouvoir d’agir, ce n’est pas qu’au quotidien  -que ce soit sur son lieu de travail ou à la maison,  c’est aussi et peut-être surtout, pendant les vacances.  Le pouvoir d’agir consiste avant tout, en un pouvoir de choisir. Choisir quand on va aux toilettes,  l’heure à laquelle on va se coucher,  le programme de sa journée,   la température de la douche,  la texture des repas,   les vêtements, leur couleur, le choix de les accorder même par chaussette dépareillée, par exemple 
+
+Nous vous suggérons donc de nous faire confiance à nous vacanciers, de prime abord.  Mon voeu le plus pieux serait  que vous nous aidiez à rester maîtres de nous-mêmes sur notre lieu de vacances.
+
+Très concrètement, moi je sais très bien dans quelle direction je veux aller en séjour,  quelles sont les choses que je ne peux pas faire à cause de mes difficultés,  quelles activités me semblent à priori impossibles à cause de mon handicap. \pau=200\ Ou, à l'inverse, je peux vous expliquer comment on peut s'y prendre avec moi pour tel ou tel transfert par exemple  ou plus globalement, pour telle ou telle activité ! 
+
+Le sens étymologique du terme autonomie, signifie d’ailleurs « se gouverner soi-même ».  
+
+Je prône l’autonomie dans le sens que le philosophe Paul Ricoeur lui donne,  c’est à dire, être identifié par soi, et par les autres, comme un sujet décideur de ses propres actes.  C’est aussi, avoir confiance dans sa propre capacité à être cet acteur,  ce sujet, cet auteur. 
+
+Par votre aide, vous pouvez encore une fois, être des facilitateurs de cette autonomie.  Je vous dis ça, parce que, la façon dont on pense et dont on vit les gestes que l’on pose, les transforment,  et change le ressenti qu’en ont ceux qui reçoivent ces gestes. 
+
+Vous pouvez donc être des catalyseurs de l’autonomie et du pouvoir d’agir des vacanciers sur votre séjour ! 
+
+Je vous remercie de votre écoute, et me tiens à votre disposition pour toute question.   Navré de ne pas avoir d’assistant à mes côtés là pour accélérer les réponses.   Je vais peut-être prendre plusieurs questions ensemble,  \pau=200\ et on se répartira les réponses,   Sylvain du tac au tac, et moi avec la synthèse vocale.  ". 
+"
