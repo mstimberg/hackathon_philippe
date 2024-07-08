@@ -1,6 +1,7 @@
 import os
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QWidget, QLabel
+import transformers
 
 main_folder = r"/home/mstimberg/test_files"
 
