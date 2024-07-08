@@ -1,8 +1,11 @@
+import datetime
 import os
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QWidget, QLabel, QTabWidget, QScrollArea, QListWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QWidget, QLabel, QTabWidget, QScrollArea, QListWidget, QLineEdit
 from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont
 from PyQt5.QtCore import QRegularExpression, Qt
+from whoosh import index
+from whoosh.fields import Schema, TEXT, ID, DATETIME
 
 STYLE = """QWidget {
    font-size: 30px;
@@ -61,8 +64,21 @@ class MainWindow(QMainWindow):
         self.scroll_recent.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll_recent.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.file_tabs.addTab(self.scroll_recent, "Fichiers récents")
-        self.file_search = QWidget()
-        self.file_tabs.addTab(self.file_search, "Recherche")
+        search_widget = QWidget()
+        search_layout = QVBoxLayout()
+        self.search_entry = QLineEdit()
+        self.search_entry.setPlaceholderText("Mots-clés...")
+        self.search_entry.textChanged.connect(self.search)
+        self.scroll_file_search = QScrollArea()
+        self.scroll_file_search.setWidgetResizable(True)
+        self.scroll_file_search.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll_file_search.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.search_file_list = QListWidget()
+        self.scroll_file_search.setWidget(self.search_file_list)
+        search_layout.addWidget(self.search_entry)
+        search_layout.addWidget(self.scroll_file_search)
+        search_widget.setLayout(search_layout)
+        self.file_tabs.addTab(search_widget, "Recherche")
         self.layout.addWidget(self.file_tabs, stretch=1)
 
         self.text_layout = QVBoxLayout()
@@ -101,7 +117,39 @@ class MainWindow(QMainWindow):
         self.recent_file_list.addItems([os.path.splitext(f)[0] for f, mtime in files])
         self.recent_file_list.itemClicked.connect(self.change_file)
         self.recent_file_list.setAlternatingRowColors(True)
-        self.recent_file_list.setStyleSheet("alternate-background-color: white;background-color: #eeeeee;");
+        self.recent_file_list.setStyleSheet("alternate-background-color: white;background-color: #eeeeee;")
+
+        self.search_file_list.itemClicked.connect(self.change_file)
+        self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in files]))
+        self.search_file_list.setAlternatingRowColors(True)
+        self.search_file_list.setStyleSheet("alternate-background-color: white;background-color: #eeeeee;")
+
+
+        if not os.path.exists("indexdir"):
+            os.mkdir("indexdir")
+        schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT(stored=True), modified=DATETIME(stored=True))
+        self.search_index = index.create_in("indexdir", schema)
+        writer = self.search_index.writer()
+        for fname, mtime in files:
+            full_fname = os.path.join(main_folder, fname)
+            with open(full_fname, "r") as f:
+                content = f.read()
+            writer.add_document(title=os.path.splitext(fname)[0],
+                                path=full_fname,
+                                content=content,
+                                modified=datetime.datetime.fromtimestamp(mtime))
+        writer.commit()
+
+    def search(self):
+        with self.search_index.searcher() as searcher:
+            query = self.search_entry.text()
+            if not query.endswith(" "):
+                query += "*"
+            results = searcher.find("title", query, limit=20)
+            results_content = searcher.find("content", query, limit=20)
+            results.upgrade_and_extend(results_content)
+            self.search_file_list.clear()
+            self.search_file_list.addItems([hit["title"] for hit in results])
 
     def add_pauses(self):
         text = self.textbox.toPlainText()
