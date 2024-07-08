@@ -13,4 +13,3 @@ jobs:
           spec: 'build.spec'
           requirements: 'requirements.txt'
           upload_exe_with_name: 'GUI_Philippe.exe'
-          options: --onefile, --name "GUI de Philippe", --windowed, 
