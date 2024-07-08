@@ -16,8 +16,8 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QFileDialog,
 )
-from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont
-from PyQt5.QtCore import QRegularExpression, Qt
+from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont, QPixmap, QIcon
+from PyQt5.QtCore import QRegularExpression, Qt, QSize
 from whoosh import index
 from whoosh.fields import Schema, TEXT, ID, DATETIME
 
@@ -35,11 +35,18 @@ QListWidget {
 QTabWidget {
     background: #066791
 }
+QTabBar {
+    icon-size: 48px 48px;
+}
 """
 
 main_folder = r"/home/mstimberg/test_files"
 
 replacements = {"." : ". \\pau=500\\"}
+
+
+def icon_fname(icon):
+    return os.path.join(os.path.dirname(__file__), "icons", icon)
 
 class PauseHighlighter(QSyntaxHighlighter):
     def highlightBlock(self, text):
@@ -84,13 +91,29 @@ class MainWindow(QMainWindow):
         self.file_tabs = QTabWidget()
         self.file_tabs.setStyleSheet("")
         # Add a tab for recent files
+        self.recent_with_buttons = QWidget()
+        recent_layout = QHBoxLayout()
         self.scroll_recent = QScrollArea()
         self.recent_file_list = QListWidget()
         self.scroll_recent.setWidget(self.recent_file_list)
         self.scroll_recent.setWidgetResizable(True)
         self.scroll_recent.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll_recent.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.file_tabs.addTab(self.scroll_recent, "Fichiers récents")
+        recent_layout.addWidget(self.scroll_recent)
+        recent_buttons = QVBoxLayout()
+        recent_buttons.addStretch()
+        caret_up = QIcon(QPixmap(icon_fname("chevron-up.svg")))
+        caret_down = QIcon(QPixmap(icon_fname("chevron-down.svg")))
+        self.recent_up_button = QPushButton(icon=caret_up)
+        self.recent_up_button.setIconSize(QSize(48, 48))
+        self.recent_down_button = QPushButton(icon=caret_down)
+        self.recent_down_button.setIconSize(QSize(48, 48))
+        recent_buttons.addWidget(self.recent_up_button)
+        recent_buttons.addWidget(self.recent_down_button)
+        recent_layout.addLayout(recent_buttons)
+        self.recent_with_buttons.setLayout(recent_layout)
+        recent_icon = QIcon(QPixmap(icon_fname("clock.svg")))
+        self.file_tabs.addTab(self.recent_with_buttons, recent_icon, "Fichiers récents")
         search_widget = QWidget()
         search_layout_with_buttons = QHBoxLayout()
         search_layout = QVBoxLayout()
@@ -108,8 +131,10 @@ class MainWindow(QMainWindow):
         search_layout_with_buttons.addLayout(search_layout)
         search_button_layout = QVBoxLayout()
         search_button_layout.addStretch()
-        self.search_up_button = QPushButton("↑")
-        self.search_down_button = QPushButton("↓")
+        self.search_up_button = QPushButton(icon=caret_up)
+        self.search_up_button.setIconSize(QSize(48, 48))
+        self.search_down_button = QPushButton(icon=caret_down)
+        self.search_down_button.setIconSize(QSize(48, 48))
         search_button_layout.addWidget(self.search_up_button)
         search_button_layout.addWidget(self.search_down_button)
         search_layout_with_buttons.addLayout(search_button_layout)
@@ -143,6 +168,12 @@ class MainWindow(QMainWindow):
         self.save_button.clicked.connect(self.save)
         self.buttons.addWidget(self.save_button)
         self.buttons.addStretch()
+        self.text_up_button = QPushButton(icon=caret_up)
+        self.text_up_button.setIconSize(QSize(48, 48))
+        self.text_down_button = QPushButton(icon=caret_down)
+        self.text_down_button.setIconSize(QSize(48, 48))
+        self.buttons.addWidget(self.text_up_button)
+        self.buttons.addWidget(self.text_down_button)
         layout.addLayout(self.buttons)
         self.text_area.setLayout(layout)
         self.text_area.setStyleSheet("background: #066791")
