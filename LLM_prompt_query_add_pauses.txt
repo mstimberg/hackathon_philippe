@@ -38,6 +38,7 @@ Le deuxième point qui nous intéresse comme directrices et directeurs de séjou
 
 Please add similar types of pauses at the appropriate positions in the sentences of the following text:  
 
+
 "Mon aspiration dans la vie, c’est d’être autonome.  ça peut paraître paradoxal pour quelqu’un comme moi qui n’a pas le contrôle de ses mouvements. 
 
 Et ça l’est,  si on considère que l’autonomie, c’est réussir à se débrouiller seul pour faire les choses.  Mais, ce n’est pas vraiment ça l’autonomie,  sinon personne ne serait autonome, en situation de handicap ou non.  On a toutes et touss besoin des autres pour avancer,  et certains d’entre nous ont besoin des autres plus souvent ! 
@@ -50,7 +51,7 @@ Le pouvoir d’agir, ce n’est pas qu’au quotidien  -que ce soit sur son lieu
 
 Nous vous suggérons donc de nous faire confiance à nous vacanciers, de prime abord.  Mon voeu le plus pieux serait  que vous nous aidiez à rester maîtres de nous-mêmes sur notre lieu de vacances.
 
-Très concrètement, moi je sais très bien dans quelle direction je veux aller en séjour,  quelles sont les choses que je ne peux pas faire à cause de mes difficultés,  quelles activités me semblent à priori impossibles à cause de mon handicap. \pau=200\ Ou, à l'inverse, je peux vous expliquer comment on peut s'y prendre avec moi pour tel ou tel transfert par exemple  ou plus globalement, pour telle ou telle activité ! 
+Très concrètement, moi je sais très bien dans quelle direction je veux aller en séjour,  quelles sont les choses que je ne peux pas faire à cause de mes difficultés,  quelles activités me semblent à priori impossibles à cause de mon handicap.  Ou, à l'inverse, je peux vous expliquer comment on peut s'y prendre avec moi pour tel ou tel transfert par exemple  ou plus globalement, pour telle ou telle activité ! 
 
 Le sens étymologique du terme autonomie, signifie d’ailleurs « se gouverner soi-même ».  
 
@@ -60,5 +61,5 @@ Par votre aide, vous pouvez encore une fois, être des facilitateurs de cette au
 
 Vous pouvez donc être des catalyseurs de l’autonomie et du pouvoir d’agir des vacanciers sur votre séjour ! 
 
-Je vous remercie de votre écoute, et me tiens à votre disposition pour toute question.   Navré de ne pas avoir d’assistant à mes côtés là pour accélérer les réponses.   Je vais peut-être prendre plusieurs questions ensemble,  \pau=200\ et on se répartira les réponses,   Sylvain du tac au tac, et moi avec la synthèse vocale.  ". 
+Je vous remercie de votre écoute, et me tiens à votre disposition pour toute question.   Navré de ne pas avoir d’assistant à mes côtés là pour accélérer les réponses.   Je vais peut-être prendre plusieurs questions ensemble,   et on se répartira les réponses,   Sylvain du tac au tac, et moi avec la synthèse vocale.  ". 
 "
