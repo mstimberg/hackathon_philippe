@@ -21,9 +21,21 @@ from PyQt5.QtCore import QRegularExpression, Qt
 from whoosh import index
 from whoosh.fields import Schema, TEXT, ID, DATETIME
 
-STYLE = """QWidget {
+STYLE = """
+QWidget {
    font-size: 30px;
-}"""
+   background: 383B3C;
+}
+QListWidget {
+    alternate-background-color: white;
+    background-color: #f1f0f0;
+    selection-color: black;
+    selection-background-color: #ffb55d;
+}
+QTabWidget {
+    background: #066791
+}
+"""
 
 main_folder = r"/home/mstimberg/test_files"
 
@@ -61,7 +73,7 @@ class MainWindow(QMainWindow):
         top_bar_layout.addWidget(self.close_button)
         self.central_layout.addWidget(top_bar)
         self.layout = QHBoxLayout()
-        top_bar.setStyleSheet("background-color: darkblue; color: white; padding: 10px;")
+        top_bar.setStyleSheet("background-color: #066791; color: white; padding: 10px;")
 
         self.central_widget = QWidget()
         self.central_widget.setLayout(self.central_layout)
@@ -70,6 +82,7 @@ class MainWindow(QMainWindow):
 
         # Tabbed interface for files
         self.file_tabs = QTabWidget()
+        self.file_tabs.setStyleSheet("")
         # Add a tab for recent files
         self.scroll_recent = QScrollArea()
         self.recent_file_list = QListWidget()
@@ -79,6 +92,7 @@ class MainWindow(QMainWindow):
         self.scroll_recent.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.file_tabs.addTab(self.scroll_recent, "Fichiers récents")
         search_widget = QWidget()
+        search_layout_with_buttons = QHBoxLayout()
         search_layout = QVBoxLayout()
         self.search_entry = QLineEdit()
         self.search_entry.setPlaceholderText("Mots-clés...")
@@ -91,7 +105,15 @@ class MainWindow(QMainWindow):
         self.scroll_file_search.setWidget(self.search_file_list)
         search_layout.addWidget(self.search_entry)
         search_layout.addWidget(self.scroll_file_search)
-        search_widget.setLayout(search_layout)
+        search_layout_with_buttons.addLayout(search_layout)
+        search_button_layout = QVBoxLayout()
+        search_button_layout.addStretch()
+        self.search_up_button = QPushButton("↑")
+        self.search_down_button = QPushButton("↓")
+        search_button_layout.addWidget(self.search_up_button)
+        search_button_layout.addWidget(self.search_down_button)
+        search_layout_with_buttons.addLayout(search_button_layout)
+        search_widget.setLayout(search_layout_with_buttons)
         self.file_tabs.addTab(search_widget, "Recherche")
         self.layout.addWidget(self.file_tabs, stretch=1)
 
@@ -105,12 +127,13 @@ class MainWindow(QMainWindow):
         self.text_title_layout.addWidget(self.file_label)
         self.text_title_layout.addStretch()
 
-        self.text_area = QHBoxLayout()
+        self.text_area = QWidget()
+        layout = QHBoxLayout()
         self.textbox = QTextEdit()
-        self.text_area.addWidget(self.textbox)
+        layout.addWidget(self.textbox)
         self.text_layout.addLayout(self.text_title_layout)
-        self.text_layout.addLayout(self.text_area)
-
+        self.text_layout.addLayout(layout)
+        
         # Buttons
         self.buttons = QVBoxLayout()
         self.pause_button = QPushButton("+ pauses")
@@ -120,7 +143,9 @@ class MainWindow(QMainWindow):
         self.save_button.clicked.connect(self.save)
         self.buttons.addWidget(self.save_button)
         self.buttons.addStretch()
-        self.text_area.addLayout(self.buttons)
+        layout.addLayout(self.buttons)
+        self.text_area.setLayout(layout)
+        self.text_area.setStyleSheet("background: #066791")
         self.layout.addLayout(self.text_layout, stretch=2)
         self.filename = None
         self.highlighter = PauseHighlighter(self.textbox.document())
@@ -139,14 +164,12 @@ class MainWindow(QMainWindow):
         self.recent_file_list.addItems([os.path.splitext(f)[0] for f, mtime in files])
         self.recent_file_list.itemClicked.connect(self.change_file)
         self.recent_file_list.setAlternatingRowColors(True)
-        self.recent_file_list.setStyleSheet("alternate-background-color: white;background-color: #eeeeee;")
         self.recent_file_list.setCurrentRow(0)
+        self.load_file(os.path.join(self.folder, self.recent_file_list.currentItem().text() + ".txt"))
 
         self.search_file_list.itemClicked.connect(self.change_file)
         self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in files]))
         self.search_file_list.setAlternatingRowColors(True)
-        self.search_file_list.setStyleSheet("alternate-background-color: white;background-color: #eeeeee;")
-
 
         if not os.path.exists("indexdir"):
             os.mkdir("indexdir")
@@ -183,9 +206,6 @@ class MainWindow(QMainWindow):
     def change_file(self, item):
         file = os.path.join(self.folder, item.text() + ".txt")  
         self.load_file(file)
-
-    def select_file(self):
-        pass
 
     def save(self):
         with open(self.filename, "w") as f:
