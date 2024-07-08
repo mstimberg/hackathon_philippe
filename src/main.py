@@ -68,18 +68,13 @@ def last_file_from_folder():
 
 
 def style(app):
-    app.setStyleSheet("""QWidget {
-                            font-size: 30px;
-                         }
-                      
-                         QPushButton {
-                            padding: 10px;
-                         }""")
+    with open("assets/style.css", "r") as f:
+        app.setStyleSheet(f.read())
 
 if __name__ == "__main__":
     app = QApplication([])
     window = MainWindow()
-    window.load_file(last_file_from_folder())
     style(app)
+    window.load_file(last_file_from_folder())
     app.exec_()
     
