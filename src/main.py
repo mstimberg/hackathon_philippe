@@ -1,7 +1,21 @@
 import datetime
 import os
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QWidget, QLabel, QTabWidget, QScrollArea, QListWidget, QLineEdit
+from PyQt5.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QVBoxLayout,
+    QHBoxLayout,
+    QPushButton,
+    QTextEdit,
+    QWidget,
+    QLabel,
+    QTabWidget,
+    QScrollArea,
+    QListWidget,
+    QLineEdit,
+    QFileDialog,
+)
 from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont
 from PyQt5.QtCore import QRegularExpression, Qt
 from whoosh import index
@@ -111,13 +125,22 @@ class MainWindow(QMainWindow):
         self.filename = None
         self.highlighter = PauseHighlighter(self.textbox.document())
         self.style()
-        self.files = os.listdir(main_folder)
-        files = [(f, os.path.getmtime(os.path.join(main_folder, f))) for f in self.files]
+
+        if os.path.exists(main_folder):
+            self.folder = main_folder
+        else:
+            # Ask the user to select a folder
+            folder = QFileDialog.getExistingDirectory(self, "Sélectionnez un dossier")
+            self.folder = folder
+
+        self.files = os.listdir(self.folder)
+        files = [(f, os.path.getmtime(os.path.join(self.folder, f))) for f in self.files]
         files = sorted(files, key=lambda x: x[1])
         self.recent_file_list.addItems([os.path.splitext(f)[0] for f, mtime in files])
         self.recent_file_list.itemClicked.connect(self.change_file)
         self.recent_file_list.setAlternatingRowColors(True)
         self.recent_file_list.setStyleSheet("alternate-background-color: white;background-color: #eeeeee;")
+        self.recent_file_list.setCurrentRow(0)
 
         self.search_file_list.itemClicked.connect(self.change_file)
         self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in files]))
@@ -131,7 +154,7 @@ class MainWindow(QMainWindow):
         self.search_index = index.create_in("indexdir", schema)
         writer = self.search_index.writer()
         for fname, mtime in files:
-            full_fname = os.path.join(main_folder, fname)
+            full_fname = os.path.join(self.folder, fname)
             with open(full_fname, "r") as f:
                 content = f.read()
             writer.add_document(title=os.path.splitext(fname)[0],
@@ -158,7 +181,7 @@ class MainWindow(QMainWindow):
         self.textbox.setPlainText(text)
 
     def change_file(self, item):
-        file = os.path.join(main_folder, item.text() + ".txt")  
+        file = os.path.join(self.folder, item.text() + ".txt")  
         self.load_file(file)
 
     def select_file(self):
@@ -175,16 +198,6 @@ class MainWindow(QMainWindow):
         self.file_label.setText(os.path.splitext(os.path.basename(file))[0])
 
 
-def last_file_from_folder():
-    # Get the file that was last modified
-    files = os.listdir(main_folder)
-    files = [f for f in files if f.endswith(".txt")]
-    files = [os.path.join(main_folder, f) for f in files]
-    files = [(f, os.path.getmtime(f)) for f in files]
-    files = sorted(files, key=lambda x: x[1])
-    return files[-1][0]
-
-
 def style(app):
     app.setStyleSheet(STYLE)
 
@@ -192,6 +205,4 @@ if __name__ == "__main__":
     app = QApplication([])
     window = MainWindow()
     style(app)
-    window.load_file(last_file_from_folder())
     app.exec_()
-    
