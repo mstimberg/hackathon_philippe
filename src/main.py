@@ -334,14 +334,18 @@ class MainWindow(QMainWindow):
 
     def save(self):
         fname, ext = os.path.splitext(self.filename)
-        new_name = fname + "_pauses" + ext
-        with open(new_name, "w") as f:
+        orig_fname = fname + "_original" + ext
+        if not os.path.exists(orig_fname):
+            with open(orig_fname, "w", encoding="utf-8") as f:
+                f.write(self.original_text)
+        with open(fname + ext, "w", encoding="utf-8") as f:
             f.write(self.textbox.toPlainText())
         self.update_file_list()
 
     def load_file(self, file):
         self.filename = file
         content = self.open_file(file)
+        self.original_text = content
         self.textbox.setPlainText(content)
         self.file_label.setText(os.path.splitext(os.path.basename(file))[0])
         self.save_button.setEnabled(not content.startswith("["))
