@@ -265,10 +265,12 @@ class MainWindow(QMainWindow):
         self.search_file_list.setAlternatingRowColors(True)
 
         index_path = os.path.join(user_data_dir("recherche", "TOM"), "indexdir")
+        schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT(stored=True), modified=DATETIME(stored=True))
         if not os.path.exists(index_path):
             os.makedirs(index_path)
-        schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT(stored=True), modified=DATETIME(stored=True))
-        self.search_index = index.create_in(index_path, schema)
+            self.search_index = index.create_in(index_path, schema)
+        else:
+            self.search_index = index.open_dir(index_path)
         writer = self.search_index.writer()
         for fname, mtime in self.files:
             full_fname = os.path.join(self.folder, fname)
