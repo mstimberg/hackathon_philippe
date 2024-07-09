@@ -119,7 +119,7 @@ class MainWindow(QMainWindow):
         self.wrapper_layout.addLayout(self.central_layout)
         self.central_widget.setLayout(self.wrapper_layout)
         self.central_layout.addLayout(self.layout)
-        self.wrapper_layout.addSpacing(300)
+        self.wrapper_layout.addSpacing(275)
         self.setCentralWidget(self.central_widget)
 
         # Tabbed interface for files
