@@ -316,8 +316,12 @@ class MainWindow(QMainWindow):
         return content
 
     def search(self):
+        query = self.search_entry.text()
+        if not query:
+            self.search_file_list.clear()
+            self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in self.files]))
+            return
         with self.search_index.searcher() as searcher:
-            query = self.search_entry.text()
             if not query.endswith(" "):
                 query += "*"
             results_files = searcher.find("title", query, limit=20)
