@@ -137,6 +137,7 @@ class MainWindow(QMainWindow):
         self.clear_search_button.setIcon(QIcon(icon_fname("delete.svg")))
         self.clear_search_button.setIconSize(QSize(64, 64))
         self.clear_search_button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.clear_search_button.clicked.connect(lambda: self.search_entry.clear())
         search_button_layout.addWidget(self.clear_search_button)
         search_button_layout.addStretch()
         self.search_up_button = QPushButton(icon=caret_up)
