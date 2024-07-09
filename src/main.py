@@ -252,19 +252,15 @@ class MainWindow(QMainWindow):
             if full_fname.endswith(".txt"):
                 with open(full_fname, "r") as f:
                     content = f.read()
-                self.save_button.setEnabled(True)
             elif full_fname.endswith(".docx"):
                 doc = docx.Document(full_fname)
                 content = '\n'.join([para.text for para in doc.paragraphs])
-                self.save_button.setEnabled(False)
             else:
                 print(f"file format for {full_fname} not supported")
                 content = "[Format de fichier non supporté]"
-                self.save_button.setEnabled(False)
         except Exception as e:
             print(f"Error opening {full_fname}: {e}")
             content = "[Erreur lors de l'ouverture du fichier]"
-            self.save_button.setEnabled(False)
 
         return content
 
@@ -297,7 +293,7 @@ class MainWindow(QMainWindow):
         content = self.open_file(file)
         self.textbox.setPlainText(content)
         self.file_label.setText(os.path.splitext(os.path.basename(file))[0])
-
+        self.save_button.setEnabled(content and not content.startswith("["))
 
 def style(app):
     app.setStyleSheet(STYLE)
