@@ -57,7 +57,8 @@ START_COMMUNICATOR = True
 SCROLL_SIZE_TEXT = 750
 SCROLL_SIZE_FILES = 7
 
-main_folders = [r"C:\Users\phili\Documents\Communicator 5\Philippe prédiction\My Text Files"]
+main_folders = [r"C:\Users\phili\Documents\Communicator 5\Philippe prédiction\My Text Files",
+                r"C:\Users\Philippe\Documents\Communicator 5\Philippe\My Text Files"]
 
 replacements = {
     "." : ". \\pau=500\\",
