@@ -93,7 +93,7 @@ class MainWindow(QMainWindow):
         # Make window fullscreen
         self.showMaximized()
         self.showFullScreen()
-
+        self.wrapper_layout = QHBoxLayout()
         self.central_layout = QVBoxLayout()
         top_bar = QWidget()
         top_bar_layout = QHBoxLayout()
@@ -110,8 +110,10 @@ class MainWindow(QMainWindow):
         top_bar.setStyleSheet("background-color: #066791; color: white; padding: 10px;")
 
         self.central_widget = QWidget()
-        self.central_widget.setLayout(self.central_layout)
+        self.wrapper_layout.addLayout(self.central_layout)
+        self.central_widget.setLayout(self.wrapper_layout)
         self.central_layout.addLayout(self.layout)
+        self.wrapper_layout.addSpacing(300)
         self.setCentralWidget(self.central_widget)
 
         # Tabbed interface for files
