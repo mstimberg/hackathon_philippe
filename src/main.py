@@ -15,6 +15,7 @@ from PyQt5.QtWidgets import (
     QListWidget,
     QLineEdit,
     QFileDialog,
+    QToolButton
 )
 from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont, QPixmap, QIcon
 from PyQt5.QtCore import QRegularExpression, Qt, QSize
@@ -52,7 +53,7 @@ def icon_fname(icon):
 class PauseHighlighter(QSyntaxHighlighter):
     def highlightBlock(self, text):
         keyword_format = QTextCharFormat()
-        keyword_format.setForeground(Qt.darkBlue)
+        # keyword_format.setForeground(Qt.darkBlue)
         keyword_format.setFontWeight(QFont.Bold)
 
         rule = QRegularExpression(r"\\pau=\d+\\")
@@ -94,17 +95,12 @@ class MainWindow(QMainWindow):
         # Add a tab for recent files
         self.recent_with_buttons = QWidget()
         recent_layout = QHBoxLayout()
-        self.scroll_recent = QScrollArea()
         self.recent_file_list = QListWidget()
-        self.scroll_recent.setWidget(self.recent_file_list)
-        self.scroll_recent.setWidgetResizable(True)
-        self.scroll_recent.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scroll_recent.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        recent_layout.addWidget(self.scroll_recent)
+        recent_layout.addWidget(self.recent_file_list)
         recent_buttons = QVBoxLayout()
         recent_buttons.addStretch()
-        caret_up = QIcon(QPixmap(icon_fname("chevron-up.svg")))
-        caret_down = QIcon(QPixmap(icon_fname("chevron-down.svg")))
+        caret_up = QIcon(icon_fname("chevron-up.svg"))
+        caret_down = QIcon(icon_fname("chevron-down.svg"))
         self.recent_up_button = QPushButton(icon=caret_up)
         self.recent_up_button.setIconSize(QSize(48, 48))
         self.recent_down_button = QPushButton(icon=caret_down)
@@ -113,7 +109,7 @@ class MainWindow(QMainWindow):
         recent_buttons.addWidget(self.recent_down_button)
         recent_layout.addLayout(recent_buttons)
         self.recent_with_buttons.setLayout(recent_layout)
-        recent_icon = QIcon(QPixmap(icon_fname("clock.svg")))
+        recent_icon = QIcon(icon_fname("clock.svg"))
         self.file_tabs.addTab(self.recent_with_buttons, recent_icon, "Fichiers récents")
         search_widget = QWidget()
         search_layout_with_buttons = QHBoxLayout()
@@ -121,16 +117,17 @@ class MainWindow(QMainWindow):
         self.search_entry = QLineEdit()
         self.search_entry.setPlaceholderText("Mots-clés...")
         self.search_entry.textChanged.connect(self.search)
-        self.scroll_file_search = QScrollArea()
-        self.scroll_file_search.setWidgetResizable(True)
-        self.scroll_file_search.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scroll_file_search.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.search_file_list = QListWidget()
-        self.scroll_file_search.setWidget(self.search_file_list)
         search_layout.addWidget(self.search_entry)
-        search_layout.addWidget(self.scroll_file_search)
+        search_layout.addWidget(self.search_file_list)
         search_layout_with_buttons.addLayout(search_layout)
         search_button_layout = QVBoxLayout()
+        self.clear_search_button = QToolButton(self)
+        self.clear_search_button.setText("Supprimer\nrecherche")
+        self.clear_search_button.setIcon(QIcon(icon_fname("delete.svg")))
+        self.clear_search_button.setIconSize(QSize(64, 64))
+        self.clear_search_button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        search_button_layout.addWidget(self.clear_search_button)
         search_button_layout.addStretch()
         self.search_up_button = QPushButton(icon=caret_up)
         self.search_up_button.setIconSize(QSize(48, 48))
@@ -140,7 +137,8 @@ class MainWindow(QMainWindow):
         search_button_layout.addWidget(self.search_down_button)
         search_layout_with_buttons.addLayout(search_button_layout)
         search_widget.setLayout(search_layout_with_buttons)
-        self.file_tabs.addTab(search_widget, "Recherche")
+        search_icon = QIcon(icon_fname("recherche-mot-clé.svg"))
+        self.file_tabs.addTab(search_widget, search_icon, "Mot-clé")
         self.layout.addWidget(self.file_tabs, stretch=1)
 
         self.text_layout = QVBoxLayout()
@@ -162,10 +160,20 @@ class MainWindow(QMainWindow):
 
         # Buttons
         self.buttons = QVBoxLayout()
-        self.pause_button = QPushButton("+ pauses")
+        self.pause_button = QToolButton(self)
+        self.pause_button.setText("Insérer pauses")
+        keyboard_icon = QIcon(icon_fname("keyboard.svg"))
+        self.pause_button.setIcon(keyboard_icon)
+        self.pause_button.setIconSize(QSize(64, 64))
+        self.pause_button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.pause_button.clicked.connect(self.add_pauses)
         self.buttons.addWidget(self.pause_button)
-        self.save_button = QPushButton("Enregistrer")
+        self.save_button = QToolButton(self)
+        self.save_button.setText("Enregistrer")
+        save_icon = QIcon(icon_fname("save.svg"))
+        self.save_button.setIconSize(QSize(64, 64))
+        self.save_button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.save_button.setIcon(save_icon)
         self.save_button.clicked.connect(self.save)
         self.buttons.addWidget(self.save_button)
         self.buttons.addStretch()
