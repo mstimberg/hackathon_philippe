@@ -215,16 +215,16 @@ class MainWindow(QMainWindow):
             self.folder = folder
 
         self.files = os.listdir(self.folder)
-        files = [(f, os.path.getmtime(os.path.join(self.folder, f))) for f in self.files]
-        files = sorted(files, key=lambda x: x[1])
-        self.recent_file_list.addItems([os.path.splitext(f)[0] for f, mtime in files])
+        self.files = [(f, os.path.getmtime(os.path.join(self.folder, f))) for f in self.files]
+        self.files = sorted(self.files, key=lambda x: x[1])
+        self.recent_file_list.addItems([os.path.splitext(f)[0] for f, mtime in self.files])
         self.recent_file_list.itemClicked.connect(self.change_file)
         self.recent_file_list.setAlternatingRowColors(True)
         self.recent_file_list.setCurrentRow(0)
-        self.load_file(os.path.join(self.folder, self.recent_file_list.currentItem().text() + ".txt"))
+        self.load_file(os.path.join(self.folder, self.find_file(self.recent_file_list.currentItem().text())))
 
         self.search_file_list.itemClicked.connect(self.change_file)
-        self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in files]))
+        self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in self.files]))
         self.search_file_list.setAlternatingRowColors(True)
 
         if not os.path.exists("indexdir"):
@@ -232,7 +232,7 @@ class MainWindow(QMainWindow):
         schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT(stored=True), modified=DATETIME(stored=True))
         self.search_index = index.create_in("indexdir", schema)
         writer = self.search_index.writer()
-        for fname, mtime in files:
+        for fname, mtime in self.files:
             full_fname = os.path.join(self.folder, fname)
             content = self.open_file(full_fname)
             writer.add_document(title=os.path.splitext(fname)[0],
@@ -241,17 +241,30 @@ class MainWindow(QMainWindow):
                                 modified=datetime.datetime.fromtimestamp(mtime))
         writer.commit()
 
+    def find_file(self, fname):
+        for f, mtime in self.files:
+            if os.path.splitext(f)[0] == fname:
+                return f
+        return None
+    
     def open_file(self, full_fname):
-        if full_fname.endswith(".txt"):
-            with open(full_fname, "r") as f:
-                content = f.read()
-
-        elif full_fname.endswith(".docx"):
-            doc = docx.Document(full_fname)
-            content = '\n'.join([para.text for para in doc.paragraphs])
-            
-        else:
-            print(f"file format for {full_fname} not supported")
+        try:
+            if full_fname.endswith(".txt"):
+                with open(full_fname, "r") as f:
+                    content = f.read()
+                self.save_button.setEnabled(True)
+            elif full_fname.endswith(".docx"):
+                doc = docx.Document(full_fname)
+                content = '\n'.join([para.text for para in doc.paragraphs])
+                self.save_button.setEnabled(False)
+            else:
+                print(f"file format for {full_fname} not supported")
+                content = "[Format de fichier non supporté]"
+                self.save_button.setEnabled(False)
+        except Exception as e:
+            print(f"Error opening {full_fname}: {e}")
+            content = "[Erreur lors de l'ouverture du fichier]"
+            self.save_button.setEnabled(False)
 
         return content
 
@@ -273,7 +286,7 @@ class MainWindow(QMainWindow):
         self.textbox.setPlainText(text)
 
     def change_file(self, item):
-        file = os.path.join(self.folder, item.text() + ".txt")  
+        file = os.path.join(self.folder, self.find_file(item.text()))  
         self.load_file(file)
 
     def save(self):
@@ -281,9 +294,8 @@ class MainWindow(QMainWindow):
             f.write(self.textbox.toPlainText())
 
     def load_file(self, file):
-        self.filename = file
-        with open(file, "r") as f:
-            self.textbox.setPlainText(f.read())
+        content = self.open_file(file)
+        self.textbox.setPlainText(content)
         self.file_label.setText(os.path.splitext(os.path.basename(file))[0])
 
 
