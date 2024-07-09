@@ -20,6 +20,7 @@ from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont, QPixmap, QIc
 from PyQt5.QtCore import QRegularExpression, Qt, QSize
 from whoosh import index
 from whoosh.fields import Schema, TEXT, ID, DATETIME
+import docx 
 
 STYLE = """
 QWidget {
@@ -158,7 +159,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.textbox)
         self.text_layout.addLayout(self.text_title_layout)
         self.text_layout.addLayout(layout)
-        
+
         # Buttons
         self.buttons = QVBoxLayout()
         self.pause_button = QPushButton("+ pauses")
@@ -209,13 +210,26 @@ class MainWindow(QMainWindow):
         writer = self.search_index.writer()
         for fname, mtime in files:
             full_fname = os.path.join(self.folder, fname)
-            with open(full_fname, "r") as f:
-                content = f.read()
+            content = self.open_file(full_fname)
             writer.add_document(title=os.path.splitext(fname)[0],
                                 path=full_fname,
                                 content=content,
                                 modified=datetime.datetime.fromtimestamp(mtime))
         writer.commit()
+
+    def open_file(self, full_fname):
+        if full_fname.endswith(".txt"):
+            with open(full_fname, "r") as f:
+                content = f.read()
+
+        elif full_fname.endswith(".docx"):
+            doc = docx.Document(full_fname)
+            content = '\n'.join([para.text for para in doc.paragraphs])
+            
+        else:
+            print(f"file format for {full_fname} not supported")
+
+        return content
 
     def search(self):
         with self.search_index.searcher() as searcher:
