@@ -250,7 +250,7 @@ class MainWindow(QMainWindow):
     def open_file(self, full_fname):
         try:
             if full_fname.endswith(".txt"):
-                with open(full_fname, "r") as f:
+                with open(full_fname, "r", encoding="utf-8") as f:
                     content = f.read()
             elif full_fname.endswith(".docx"):
                 doc = docx.Document(full_fname)
