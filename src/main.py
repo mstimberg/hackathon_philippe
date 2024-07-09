@@ -52,6 +52,7 @@ QLineEdit {
     padding-bottom: 15px;
 }
 """
+START_COMMUNICATOR = True
 
 SCROLL_SIZE_TEXT = 750
 SCROLL_SIZE_FILES = 500
@@ -245,25 +246,20 @@ class MainWindow(QMainWindow):
             folder = QFileDialog.getExistingDirectory(self, "Sélectionnez un dossier")
             self.folder = folder
 
-        self.files = os.listdir(self.folder)
-        self.files = [(f, os.path.getmtime(os.path.join(self.folder, f))) for f in self.files]
-        self.files = sorted(self.files, key=lambda x: x[1], reverse=True)
+        
         delegate = CustomDelegate()
         self.recent_file_list.setItemDelegate(delegate)
-        self.recent_file_list.addItems(
-            [os.path.splitext(f)[0] for f, mtime in self.files]
-        )
+        self.search_file_list.setItemDelegate(delegate)
         self.recent_file_list.itemClicked.connect(self.change_file)
-        self.recent_file_list.setAlternatingRowColors(True)
-        self.recent_file_list.setCurrentRow(0)
-        self.recent_file_list.setWordWrap(True)
-
-        self.load_file(os.path.join(self.folder, self.find_file(self.recent_file_list.currentItem().text())))
-
         self.search_file_list.itemClicked.connect(self.change_file)
-        self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in self.files]))
         self.search_file_list.setAlternatingRowColors(True)
-
+        self.recent_file_list.setAlternatingRowColors(True)
+        self.recent_file_list.setWordWrap(True)
+        self.update_file_list()
+        
+        self.recent_file_list.setCurrentRow(0)
+        self.load_file(os.path.join(self.folder, self.find_file(self.recent_file_list.currentItem().text())))
+        
         index_path = os.path.join(user_data_dir("recherche", "TOM"), "indexdir")
         schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT(stored=True), modified=DATETIME(stored=True))
         if not os.path.exists(index_path):
@@ -281,6 +277,17 @@ class MainWindow(QMainWindow):
                                 modified=datetime.datetime.fromtimestamp(mtime))
         writer.commit()
 
+    def update_file_list(self):
+        self.files = os.listdir(self.folder)
+        self.files = [(f, os.path.getmtime(os.path.join(self.folder, f))) for f in self.files]
+        self.files = sorted(self.files, key=lambda x: x[1], reverse=True)
+        self.recent_file_list.clear()
+        self.recent_file_list.addItems(
+            [os.path.splitext(f)[0] for f, mtime in self.files]
+        )
+        self.search_file_list.clear()
+        self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in self.files]))
+    
     def find_file(self, fname):
         for f, mtime in self.files:
             if os.path.splitext(f)[0] == fname:
@@ -326,10 +333,14 @@ class MainWindow(QMainWindow):
         self.load_file(file)
 
     def save(self):
-        with open(self.filename, "w") as f:
+        fname, ext = os.path.splitext(self.filename)
+        new_name = fname + "_pauses" + ext
+        with open(new_name, "w") as f:
             f.write(self.textbox.toPlainText())
+        self.update_file_list()
 
     def load_file(self, file):
+        self.filename = file
         content = self.open_file(file)
         self.textbox.setPlainText(content)
         self.file_label.setText(os.path.splitext(os.path.basename(file))[0])
