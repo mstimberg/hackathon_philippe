@@ -52,8 +52,16 @@ SCROLL_SIZE_FILES = 500
 
 main_folder = r"C:\Users\phili\Documents\Communicator 5\Philippe prédiction\Mes ensembles de pages\My Text Files"
 
-replacements = {"." : ". \\pau=500\\"}
-
+replacements = {
+    "." : ". \\pau=500\\",
+    "," : ", \\pau=100\\",
+    ":" : ": \\pau=200\\",
+    ";" : "; \\pau=200\\",
+    "\n" : "\n \\pau=500\\ \\pau=500\\",
+    "!" : "! \\pau=200\\",
+    "?" : "? \\pau=200\\",
+    "..." : "... \\pau=500\\"
+}
 
 def icon_fname(icon):
     return os.path.join(os.path.dirname(__file__), "icons", icon)
