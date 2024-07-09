@@ -11,11 +11,11 @@ from PyQt5.QtWidgets import (
     QWidget,
     QLabel,
     QTabWidget,
-    QScrollArea,
     QListWidget,
     QLineEdit,
     QFileDialog,
-    QToolButton
+    QToolButton,
+    QStyledItemDelegate,
 )
 from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont, QPixmap, QIcon
 from PyQt5.QtCore import QRegularExpression, Qt, QSize
@@ -77,6 +77,14 @@ class PauseHighlighter(QSyntaxHighlighter):
         while rule_iterator.hasNext():
             match = rule_iterator.next()
             self.setFormat(match.capturedStart(), match.capturedLength(), keyword_format)
+
+
+class CustomDelegate(QStyledItemDelegate):
+    def sizeHint(self, option, index):
+        originalSize = super(CustomDelegate, self).sizeHint(option, index)
+        # Set the height to a fixed value, keep the original width
+        return QSize(originalSize.width(), 100) 
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -227,10 +235,16 @@ class MainWindow(QMainWindow):
         self.files = os.listdir(self.folder)
         self.files = [(f, os.path.getmtime(os.path.join(self.folder, f))) for f in self.files]
         self.files = sorted(self.files, key=lambda x: x[1])
-        self.recent_file_list.addItems([os.path.splitext(f)[0] for f, mtime in self.files])
+        delegate = CustomDelegate()
+        self.recent_file_list.setItemDelegate(delegate)
+        self.recent_file_list.addItems(
+            [os.path.splitext(f)[0] for f, mtime in self.files]
+        )
         self.recent_file_list.itemClicked.connect(self.change_file)
         self.recent_file_list.setAlternatingRowColors(True)
         self.recent_file_list.setCurrentRow(0)
+        self.recent_file_list.setWordWrap(True)
+
         self.load_file(os.path.join(self.folder, self.find_file(self.recent_file_list.currentItem().text())))
 
         self.search_file_list.itemClicked.connect(self.change_file)
@@ -257,7 +271,7 @@ class MainWindow(QMainWindow):
             if os.path.splitext(f)[0] == fname:
                 return f
         return None
-    
+
     def open_file(self, full_fname):
         try:
             if full_fname.endswith(".txt"):
