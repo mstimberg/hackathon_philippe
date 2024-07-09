@@ -55,7 +55,7 @@ QLineEdit {
 START_COMMUNICATOR = True
 
 SCROLL_SIZE_TEXT = 750
-SCROLL_SIZE_FILES = 500
+SCROLL_SIZE_FILES = 50
 
 main_folder = r"C:\Users\phili\Documents\Communicator 5\Philippe prédiction\My Text Files"
 
