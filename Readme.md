@@ -8,7 +8,7 @@ The Pause app allows the user to navigate in local files from the Communicator 5
 
 The Pause app also lets the user automatically add appropriate pause tags to make the output of the Tobii text-to-speech utility from Communicator 5 more fluid.
 
-TODO ADD SCREENSHOT HERE GABRIEL
+TODO ADD SCREENSHOT HERE GABRIEL (save to "assets/screenshor.png")
 ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 
 ## Important notes and issues
@@ -23,6 +23,6 @@ Modified files including the pause tags are saved locally.
 
 ## How to Edit to App and update it on Philippe's computer
 
-When you push a commit to main, the Github CI/CD triggers the build of the executable files for all platforms. For Philippe's computer, use the "latest" .exe.
+When you push a commit to main, the Github CI/CD triggers the build of the executable files for all platforms. For Philippe's computer, use  `GUI_Philippe_windows-latest.exe`. You can find under the Actions tab, clicking on the latest commit and scrolling down.
 
 You can download this .exe on Philippe's computer and run it to get the app. Replace the previous version so that the Communicator 5 Home Screen shortcut points to the latest version of the .exe.
