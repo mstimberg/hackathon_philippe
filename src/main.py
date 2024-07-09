@@ -44,6 +44,12 @@ QTabBar {
 }
 QTabBar::tab {
     padding: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+QLineEdit {
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 """
 
@@ -123,6 +129,7 @@ class MainWindow(QMainWindow):
         self.recent_with_buttons = QWidget()
         recent_layout = QHBoxLayout()
         self.recent_file_list = QListWidget()
+        self.recent_file_list.setSpacing(10)
         recent_layout.addWidget(self.recent_file_list)
         recent_buttons = QVBoxLayout()
         recent_buttons.addStretch()
@@ -149,6 +156,7 @@ class MainWindow(QMainWindow):
         self.search_entry.setPlaceholderText("Mots-clés...")
         self.search_entry.textChanged.connect(self.search)
         self.search_file_list = QListWidget()
+        self.search_file_list.setSpacing(10)
         search_layout.addWidget(self.search_entry)
         search_layout.addWidget(self.search_file_list)
         search_layout_with_buttons.addLayout(search_layout)
