@@ -22,6 +22,8 @@ from PyQt5.QtCore import QRegularExpression, Qt, QSize
 from whoosh import index
 from whoosh.fields import Schema, TEXT, ID, DATETIME
 import docx 
+from appdirs import user_data_dir
+
 
 STYLE = """
 QWidget {
@@ -227,10 +229,11 @@ class MainWindow(QMainWindow):
         self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in self.files]))
         self.search_file_list.setAlternatingRowColors(True)
 
-        if not os.path.exists("indexdir"):
-            os.mkdir("indexdir")
+        index_path = os.path.join(user_data_dir("recherche", "TOM"), "indexdir")
+        if not os.path.exists(index_path):
+            os.makedirs(index_path)
         schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT(stored=True), modified=DATETIME(stored=True))
-        self.search_index = index.create_in("indexdir", schema)
+        self.search_index = index.create_in(index_path, schema)
         writer = self.search_index.writer()
         for fname, mtime in self.files:
             full_fname = os.path.join(self.folder, fname)
