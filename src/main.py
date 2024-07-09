@@ -50,7 +50,7 @@ QTabBar::tab {
 SCROLL_SIZE_TEXT = 750
 SCROLL_SIZE_FILES = 500
 
-main_folder = r"C:\Users\phili\Documents\Communicator 5\Philippe prédiction\Mes ensembles de pages\My Text Files"
+main_folder = r"C:\Users\phili\Documents\Communicator 5\Philippe prédiction\My Text Files"
 
 replacements = {"." : ". \\pau=500\\"}
 
