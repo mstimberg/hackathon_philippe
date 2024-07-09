@@ -293,7 +293,7 @@ class MainWindow(QMainWindow):
         content = self.open_file(file)
         self.textbox.setPlainText(content)
         self.file_label.setText(os.path.splitext(os.path.basename(file))[0])
-        self.save_button.setEnabled(content and not content.startswith("["))
+        self.save_button.setEnabled(content is not None and len(content)>0 and not content.startswith("["))
 
 def style(app):
     app.setStyleSheet(STYLE)
