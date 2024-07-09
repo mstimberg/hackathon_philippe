@@ -17,7 +17,7 @@ from PyQt5.QtWidgets import (
     QToolButton,
     QStyledItemDelegate,
 )
-from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont, QPixmap, QIcon
+from PyQt5.QtGui import QTextCharFormat, QSyntaxHighlighter, QFont, QPixmap, QIcon, QColor, QPainter
 from PyQt5.QtCore import QRegularExpression, Qt, QSize
 from whoosh import index
 from whoosh.fields import Schema, TEXT, ID, DATETIME
@@ -106,6 +106,10 @@ class MainWindow(QMainWindow):
         top_bar_layout = QHBoxLayout()
         top_bar.setLayout(top_bar_layout)
         self.title = QLabel("Insertion de pauses")
+        logo_pixmap = QPixmap(icon_fname("logo_white.png"))
+        logo = QLabel()
+        logo.setPixmap(logo_pixmap)
+        top_bar_layout.addWidget(logo)
         top_bar_layout.addWidget(self.title)
         self.close_button = QPushButton(icon=QIcon(icon_fname("close.svg")))
         self.close_button.setIconSize(QSize(64, 64))
