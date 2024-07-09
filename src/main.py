@@ -40,7 +40,13 @@ QTabWidget {
 QTabBar {
     icon-size: 48px 48px;
 }
+QTabBar::tab {
+    padding: 10px;
+}
 """
+
+SCROLL_SIZE_TEXT = 750
+SCROLL_SIZE_FILES = 500
 
 main_folder = r"/home/mstimberg/test_files"
 
@@ -103,8 +109,12 @@ class MainWindow(QMainWindow):
         caret_down = QIcon(icon_fname("chevron-down.svg"))
         self.recent_up_button = QPushButton(icon=caret_up)
         self.recent_up_button.setIconSize(QSize(48, 48))
+        self.recent_up_button.setMinimumWidth(64)
         self.recent_down_button = QPushButton(icon=caret_down)
         self.recent_down_button.setIconSize(QSize(48, 48))
+        self.recent_down_button.setMinimumWidth(64)
+        self.recent_up_button.clicked.connect(lambda: self.recent_file_list.verticalScrollBar().setValue(self.recent_file_list.verticalScrollBar().value() - SCROLL_SIZE_FILES))
+        self.recent_down_button.clicked.connect(lambda: self.recent_file_list.verticalScrollBar().setValue(self.recent_file_list.verticalScrollBar().value() + SCROLL_SIZE_FILES))
         recent_buttons.addWidget(self.recent_up_button)
         recent_buttons.addWidget(self.recent_down_button)
         recent_layout.addLayout(recent_buttons)
@@ -133,13 +143,15 @@ class MainWindow(QMainWindow):
         self.search_up_button.setIconSize(QSize(48, 48))
         self.search_down_button = QPushButton(icon=caret_down)
         self.search_down_button.setIconSize(QSize(48, 48))
+        self.search_up_button.clicked.connect(lambda: self.search_file_list.verticalScrollBar().setValue(self.search_file_list.verticalScrollBar().value() - SCROLL_SIZE_FILES))
+        self.search_down_button.clicked.connect(lambda: self.search_file_list.verticalScrollBar().setValue(self.search_file_list.verticalScrollBar().value() + SCROLL_SIZE_FILES))
         search_button_layout.addWidget(self.search_up_button)
         search_button_layout.addWidget(self.search_down_button)
         search_layout_with_buttons.addLayout(search_button_layout)
         search_widget.setLayout(search_layout_with_buttons)
-        search_icon = QIcon(icon_fname("recherche-mot-clé.svg"))
+        search_icon = QIcon(icon_fname("recherche-mot-clé.svg"))
         self.file_tabs.addTab(search_widget, search_icon, "Mot-clé")
-        self.layout.addWidget(self.file_tabs, stretch=1)
+        self.layout.addWidget(self.file_tabs, stretch=2)
 
         self.text_layout = QVBoxLayout()
         self.text_title_layout = QHBoxLayout()
@@ -181,12 +193,15 @@ class MainWindow(QMainWindow):
         self.text_up_button.setIconSize(QSize(48, 48))
         self.text_down_button = QPushButton(icon=caret_down)
         self.text_down_button.setIconSize(QSize(48, 48))
+        # Scroll area on button push
+        self.text_up_button.clicked.connect(lambda: self.textbox.verticalScrollBar().setValue(self.textbox.verticalScrollBar().value() - SCROLL_SIZE_TEXT))
+        self.text_down_button.clicked.connect(lambda: self.textbox.verticalScrollBar().setValue(self.textbox.verticalScrollBar().value() + SCROLL_SIZE_TEXT))
         self.buttons.addWidget(self.text_up_button)
         self.buttons.addWidget(self.text_down_button)
         layout.addLayout(self.buttons)
         self.text_area.setLayout(layout)
         self.text_area.setStyleSheet("background: #066791")
-        self.layout.addLayout(self.text_layout, stretch=2)
+        self.layout.addLayout(self.text_layout, stretch=3)
         self.filename = None
         self.highlighter = PauseHighlighter(self.textbox.document())
         self.style()
