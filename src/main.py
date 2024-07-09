@@ -320,11 +320,12 @@ class MainWindow(QMainWindow):
             query = self.search_entry.text()
             if not query.endswith(" "):
                 query += "*"
-            results = searcher.find("title", query, limit=20)
+            results_files = searcher.find("title", query, limit=20)
             results_content = searcher.find("content", query, limit=20)
-            results.upgrade_and_extend(results_content)
+            results_files = list(set([hit["title"] for hit in results_files]))
+            results_content = list(set([hit["title"] for hit in results_content if not hit["title"] in results_files]))
             self.search_file_list.clear()
-            self.search_file_list.addItems([hit["title"] for hit in results])
+            self.search_file_list.addItems(results_files + results_content)
 
     def add_pauses(self):
         text = self.textbox.toPlainText()
