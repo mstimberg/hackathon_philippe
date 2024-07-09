@@ -45,11 +45,11 @@ QTabBar {
 QTabBar::tab {
     padding: 10px;
     padding-top: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
 }
 QLineEdit {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 """
 START_COMMUNICATOR = True
