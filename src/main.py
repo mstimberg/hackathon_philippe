@@ -57,7 +57,6 @@ replacements = {
     "," : ", \\pau=100\\",
     ":" : ": \\pau=200\\",
     ";" : "; \\pau=200\\",
-    "\n" : "\n \\pau=500\\ \\pau=500\\",
     "!" : "! \\pau=200\\",
     "?" : "? \\pau=200\\",
     "..." : "... \\pau=500\\"
@@ -93,6 +92,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("GUI de Philippe")
         # Make window fullscreen
         self.showMaximized()
+        self.showFullScreen()
 
         self.central_layout = QVBoxLayout()
         top_bar = QWidget()
@@ -100,7 +100,8 @@ class MainWindow(QMainWindow):
         top_bar.setLayout(top_bar_layout)
         self.title = QLabel("Insertion de pauses")
         top_bar_layout.addWidget(self.title)
-        self.close_button = QPushButton("X")
+        self.close_button = QPushButton(icon=QIcon(icon_fname("close.svg")))
+        self.close_button.setIconSize(QSize(64, 64))
         top_bar_layout.addStretch()
         self.close_button.clicked.connect(self.close)
         top_bar_layout.addWidget(self.close_button)
