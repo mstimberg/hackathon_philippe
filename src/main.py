@@ -292,7 +292,7 @@ class MainWindow(QMainWindow):
             [os.path.splitext(f)[0] for f, mtime in self.files]
         )
         self.search_file_list.clear()
-        self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in self.files]))
+        self.search_file_list.addItems(sorted([os.path.splitext(f)[0] for f, mtime in self.files], key=str.lower))
     
     def find_file(self, fname):
         for f, mtime in self.files:
