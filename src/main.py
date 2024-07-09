@@ -344,7 +344,7 @@ class MainWindow(QMainWindow):
         content = self.open_file(file)
         self.textbox.setPlainText(content)
         self.file_label.setText(os.path.splitext(os.path.basename(file))[0])
-        self.save_button.setEnabled(content is not None and len(content)>0 and not content.startswith("["))
+        self.save_button.setEnabled(not content.startswith("["))
 
 def style(app):
     app.setStyleSheet(STYLE)
@@ -355,4 +355,4 @@ if __name__ == "__main__":
     style(app)
     app.exec_()
     if START_COMMUNICATOR:
-        os.system(r"start C:\Program Files (x86)\Tobii Dynavox\Communicator 5\communicator5.exe")
+        os.system(r'start "C:\Program Files (x86)\Tobii Dynavox\Communicator 5\communicator5.exe"')
