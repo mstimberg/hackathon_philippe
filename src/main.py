@@ -247,7 +247,7 @@ class MainWindow(QMainWindow):
 
         self.files = os.listdir(self.folder)
         self.files = [(f, os.path.getmtime(os.path.join(self.folder, f))) for f in self.files]
-        self.files = sorted(self.files, key=lambda x: x[1])
+        self.files = sorted(self.files, key=lambda x: x[1], reverse=True)
         delegate = CustomDelegate()
         self.recent_file_list.setItemDelegate(delegate)
         self.recent_file_list.addItems(
