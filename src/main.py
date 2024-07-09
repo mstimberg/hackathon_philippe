@@ -57,7 +57,7 @@ START_COMMUNICATOR = True
 SCROLL_SIZE_TEXT = 750
 SCROLL_SIZE_FILES = 50
 
-main_folder = r"C:\Users\phili\Documents\Communicator 5\Philippe prédiction\My Text Files"
+main_folders = [r"C:\Users\phili\Documents\Communicator 5\Philippe prédiction\My Text Files"]
 
 replacements = {
     "." : ". \\pau=500\\",
@@ -243,8 +243,10 @@ class MainWindow(QMainWindow):
         self.highlighter = PauseHighlighter(self.textbox.document())
         self.style()
 
-        if os.path.exists(main_folder):
-            self.folder = main_folder
+        for folder in main_folders:
+            if os.path.exists(folder):
+                self.folder = folder
+                break
         else:
             # Ask the user to select a folder
             folder = QFileDialog.getExistingDirectory(self, "Sélectionnez un dossier")
