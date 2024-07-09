@@ -354,3 +354,5 @@ if __name__ == "__main__":
     window = MainWindow()
     style(app)
     app.exec_()
+    if START_COMMUNICATOR:
+        os.system(r"C:\Program Files (x86)\Tobii Dynavox\Communicator 5\communicator5.exe")
