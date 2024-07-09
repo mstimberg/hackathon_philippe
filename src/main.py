@@ -210,22 +210,25 @@ class MainWindow(QMainWindow):
         writer = self.search_index.writer()
         for fname, mtime in files:
             full_fname = os.path.join(self.folder, fname)
-            content = self.open_file(full_fname)
-            writer.add_document(title=os.path.splitext(fname)[0],
+            try:
+                content = self.open_file(full_fname)
+                writer.add_document(title=os.path.splitext(fname)[0],
                                 path=full_fname,
                                 content=content,
                                 modified=datetime.datetime.fromtimestamp(mtime))
+            except Exception:
+                print("file open issue")
+
         writer.commit()
 
     def open_file(self, full_fname):
         if full_fname.endswith(".txt"):
-            with open(full_fname, "r") as f:
-                content = f.read()
+                with open(full_fname, "r") as f:
+                    content = f.read()
 
         elif full_fname.endswith(".docx"):
-            doc = docx.Document(full_fname)
-            content = '\n'.join([para.text for para in doc.paragraphs])
-            
+                doc = docx.Document(full_fname)
+                content = '\n'.join([para.text for para in doc.paragraphs])
         else:
             print(f"file format for {full_fname} not supported")
 
