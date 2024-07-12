@@ -1,15 +1,24 @@
 # The Pause App
 
-The repository hosts the source code for the "Pause" Python app built for Philippe Aubert during the TOM Hackathon on July 8th-9th 2024.
+The repository hosts the source code for the "Pause" Python app built for Philippe Aubert during the [TOM FRANCE](https://www.tomfrance.fr/) Hackathon on July 8th-9th 2024.
 
-## Function
+## Functions
 
-The Pause app allows the user to navigate in local files from the Communicator 5 Text Files storage using keyword search and sorting by date of last modification. The text files are displayed on a side window.
+### A better files navigation
+The Pause app allows the user to navigate in their local files from the Communicator 5 Text Files storage using keyword search and sorting by date of last modification. The text files are displayed on a side window.
 
+Here is the existing interface: 
+![hackathon-capture-ecran-fichier-texte](assets/hackathon-capture-ecran-fichier-texte.png)
+
+With the Pause app, the user can leverage the tabs "Fichiers récents" and "mot-clé" to respectivally display the most recent files and search results by keywords. Here is the new interface:
+![hackathon-capture-ecran-pauses-fichiers-recents](assets/hackathon-capture-ecran-pauses-fichiers-recents.png)
+
+
+### Pause tags automation
 The Pause app also lets the user automatically add appropriate pause tags to make the output of the Tobii text-to-speech utility from Communicator 5 more fluid.
 
-TODO ADD SCREENSHOT HERE GABRIEL (save to "assets/screenshor.png")
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+Here is the text where the pause tags (/pau=200/) have been automatically added:
+![hackathon-capture-ecran-dire-avec-pauses](assets/hackathon-capture-ecran-dire-avec-pauses.png)
 
 ## Important notes and issues
 
